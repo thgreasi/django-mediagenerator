@@ -158,6 +158,31 @@ Image URLs can be generated using:
 
 The ``media_url`` tag only works with assets that consist of a single file (e.g. an image or an HTML offline manifest). It does not work with bundles or other assets which generate into multiple URLs either in development or production mode.
 
+Template Filters
+----------------
+
+The ``media_urls`` template-filter, is applied to a string with the name of a media bundle and returns a list of URLs:
+
+.. sourcecode:: django
+
+    {{ 'main.js'|media_urls }}
+
+When ``MEDIA_DEV_MODE`` is :
+
+*   ``True`` , ``media_urls`` will return a list with the URLs for each component of the bundle.
+*   ``False``, ``media_urls`` will return a list containing only the URL of the bundle's output file.
+
+We can easily iterate over the returning list, to produce custom HTML code:
+
+.. sourcecode:: django
+
+    {% for js in 'main.js'|media_urls %}
+        <script src="{{ js }}"></script>
+    {% endfor %}
+
+This should also be useful for including a bundle, when a JavaScript Resource Loader is utilized.
+
+
 Filter and Generators
 -------------------------------------------------------
 
